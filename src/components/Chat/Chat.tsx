@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, memo } from 'react';
 import { updateChatList } from '../../redux/chat/chat'
 import { useDispatch, useSelector } from 'react-redux'
 import { ChatsType, IStore } from '../../redux/type'
@@ -10,6 +10,8 @@ import './chat.scss'
 import { Skeleton } from '../Skeleton/Skeleton'
 import { DeleteChat } from './delete'
 import { ChatId } from './type'
+
+const DeleteChatMemo = memo(DeleteChat)
 
 const Chat = () => {
 
@@ -39,7 +41,7 @@ const Chat = () => {
     <article className='container-chat-list'>
       {Array.isArray(chatList) && chatList?.length > 0 ?
         chatList?.map((chat) =>
-          <div key={chat.id} className='chat-data text'>
+          <div key={chat.id} className='chat-data text' onClick={() => chatIdHandler(chat.id)}>
             <span className='text-span'>Name:
               <p>{chat.name}</p>
             </span>
@@ -52,7 +54,7 @@ const Chat = () => {
             {chat.chat_creater.login === token &&
             <div className='text-span'>
               <p></p>
-              <DeleteChat
+              <DeleteChatMemo
                 id={chat.id}
                 chatIdHandler={chatIdHandler}
               />
