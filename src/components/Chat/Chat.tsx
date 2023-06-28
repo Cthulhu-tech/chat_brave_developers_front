@@ -41,7 +41,7 @@ const Chat = () => {
     <article className='container-chat-list'>
       {Array.isArray(chatList) && chatList?.length > 0 ?
         chatList?.map((chat) =>
-          <div key={chat.id} className='chat-data text' onClick={() => chatIdHandler(chat.id)}>
+          <div key={chat.id} className='chat-data text pointer' onClick={() => chatIdHandler(chat.id)}>
             <span className='text-span'>Name:
               <p>{chat.name}</p>
             </span>

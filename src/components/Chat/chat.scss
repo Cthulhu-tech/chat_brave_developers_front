@@ -10,6 +10,10 @@
     height: clamp(100px, calc(100% - 40px), 400px);
 }
 
+.chat-data:hover {
+    background-color: gray;
+}
+
 .container-chat-list {
     width: 100%;
     height: 100%;
