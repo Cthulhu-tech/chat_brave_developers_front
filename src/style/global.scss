@@ -1,0 +1,69 @@
+@import './color.scss';
+
+:root {
+    --navigation: 100px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.center-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.glass-effect {
+    backdrop-filter: blur(5.8px);
+    -webkit-backdrop-filter: blur(5.8px);
+    background: rgba(255, 255, 255, 0.39);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.navigation-link {
+    padding: 0 5px;
+    text-align: center;
+    text-decoration: none;
+    color: rgb(37, 37, 37);
+    width: clamp(100px, 100%, 150px);
+}
+
+.navigation-link.active {
+    color: gray;
+}
+
+.btn {
+    border: none;
+    outline: none;
+    color: white;
+    min-width: 120px;
+    padding: 10px 5px;
+    border-radius: 12px;
+    background-color: $red;
+
+    transition: 0.25s;
+}
+
+.btn:hover {
+    background-color: $blue;
+}
+
+.input {
+    width: 100%;
+    border: none;
+    outline: none;
+    margin-top: 5px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 2px solid $blue;
+}
+
+.wrapper-input {
+    margin: 10px 5px;
+    min-height: 95px;
+    width: clamp(100px, 100%, 260px);
+}
