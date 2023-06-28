@@ -5,7 +5,7 @@ export interface IAction<T, P> {
 
 export interface IStore {
     Token: TokenType
-    ChatList: ChatsType[]
+    Chat: ChatsType[]
     Messages: MessagesType
 }
 

@@ -1,0 +1,43 @@
+@import '../../style/color.scss';
+
+.container-chat {
+    right: 20px;
+    bottom: 20px;
+    position: fixed;
+    border-radius: 16px;
+    flex-direction: column;
+    width: clamp(100px, calc(100% - 40px), 400px);
+    height: clamp(100px, calc(100% - 40px), 400px);
+}
+
+.container-chat-list {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding: 10px 20px;
+}
+
+.create-chat {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    background-color: gray;
+    border-radius: 0 0 16px 16px;
+    justify-content: space-around;
+}
+
+.chat-data {
+    width: 100%;
+    display: flex;
+    padding: 10px;
+    min-height: 60px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    flex-direction: column;
+    background-color: $gray;
+}
+
+.text-span {
+    display: flex;
+    justify-content: space-between;
+}

@@ -32,10 +32,6 @@
     width: clamp(100px, 100%, 150px);
 }
 
-.navigation-link.active {
-    color: gray;
-}
-
 .btn {
     border: none;
     outline: none;
@@ -59,11 +55,20 @@
     margin-top: 5px;
     padding: 10px 15px;
     border-radius: 8px;
-    border: 2px solid $blue;
+    border: 1.8px solid $blue;
 }
 
 .wrapper-input {
     margin: 10px 5px;
     min-height: 95px;
+    width: clamp(100px, 100%, 260px);
+}
+
+.btn.text_big {
+    padding: 15px 25px;
+    text-transform: capitalize;
+}
+
+.btn-wrapper-auth {
     width: clamp(100px, 100%, 260px);
 }

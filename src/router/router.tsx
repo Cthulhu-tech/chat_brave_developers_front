@@ -6,8 +6,11 @@ import { ErrorElement } from "../components/Error/ErrorElement"
 import { Skeleton } from "../components/Skeleton/Skeleton"
 import { Layout } from '../components/Layout/Layout'
 
+const Chat = lazy(() => import('../components/Chat/Chat'))
+
 const Auth = lazy(() => import("../view/auth/auth"))
 const Login = lazy(() => import("../view/login/login"))
+const Create = lazy(() => import("../view/create/create"))
 const Registration = lazy(() => import("../view/registration/registration"))
 
 export const router = createBrowserRouter([
@@ -20,26 +23,23 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 element: <Suspense fallback={<Skeleton/>}>
-                        <div></div>
+                        <Chat/>
                     </Suspense>
             },
             {
                 path: '/create',
                 element: <Suspense fallback={<Skeleton/>}>
-                        <div>create</div>
+                        <Create/>
                     </Suspense>
             },
-        ]
+        ],
     },
     {
-        path: 'auth',
-        element: <Layout>
-            <Auth/>
-        </Layout>,
+        path: '/auth',
+        element: <Auth/>,
         children: [
             {
                 index: true,
-                path: 'login',
                 element: <Suspense fallback={<Skeleton/>}>
                     <Login/>
                 </Suspense>

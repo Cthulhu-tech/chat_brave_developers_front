@@ -1,3 +1,5 @@
+@import './color.scss';
+
 .text_small {
     font-size: 12px;
 }
@@ -11,10 +13,31 @@
 }
 
 .text {
+    text-decoration: none;
     font-family: -apple-system,system-ui,Helvetica Neue,Roboto,"Noto Sans Armenian","Noto Sans Bengali","Noto Sans Cherokee","Noto Sans Devanagari","Noto Sans Ethiopic","Noto Sans Georgian","Noto Sans Hebrew","Noto Sans Kannada","Noto Sans Khmer","Noto Sans Lao","Noto Sans Osmanya","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Thai",sans-serif;
 }
 
 .text-error {
     color: red;
     text-align: center;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.center {
+    text-align: center;
+}
+
+.title {
+    color: $blue;
+}
+
+.pointer {
+    cursor: pointer;
 }

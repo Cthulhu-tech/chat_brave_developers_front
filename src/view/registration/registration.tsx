@@ -1,5 +1,5 @@
 import { updateToken } from "../../redux/token/token"
-import { useNavigate } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { useFetch } from '../../hook/useFetch'
 import { TokenType } from "../../redux/type"
 import { useForm } from "react-hook-form"
@@ -20,20 +20,20 @@ const Registration = () => {
     useEffect(() => {
       if(!error.message && returnData.id){
         dispatch(updateToken(returnData.access))
-        navigate('/')
+        navigate('/auth')
       }
     }, [returnData])
 
     return <>
         <form onSubmit={handlerRegistration} className="container-auth_form center-content">
             <div className="wrapper-input">
-                <span className="text text_meddium">Login</span>
+                <span className="text text_meddium uppercase">Login</span>
                 <input className="input text_big" {...register('login', { required: "Login is required." })} />
                 {errors.login && <p className="text text-error text_small">{ errors.login.message }</p>}
             </div>
 
             <div className="wrapper-input">
-                <span className="text text_meddium">Password</span>
+                <span className="text text_meddium uppercase">Password</span>
                 <input
                 type="password" placeholder='password' className="input text_big"
                 {...register('password', {
@@ -46,8 +46,15 @@ const Registration = () => {
                 />
                 {errors.password && <p className="text text-error text_small">{ errors.password.message }</p>}
             </div>
-            
-            <button className="btn text_big">registration</button>
+            <div className="btn-wrapper-auth">
+                <div className="auth-info">
+                    <span className="text text_small">
+                        You Registered?
+                        <NavLink to='/auth' className='navigation-link text text-error'>Login</NavLink>
+                    </span>
+                </div>
+                <button className="btn text_meddium capitalize">registration</button>
+            </div>
         </form>
         {error.message && <p className="text text-error text_small">{ error.message }</p>}
     </>

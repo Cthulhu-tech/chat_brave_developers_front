@@ -1,5 +1,5 @@
 import { updateToken } from "../../redux/token/token"
-import { useNavigate } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { useFetch } from "../../hook/useFetch"
 import { TokenType } from "../../redux/type"
 import { useDispatch } from "react-redux"
@@ -28,12 +28,12 @@ const Login = () => {
     return <>
     <form onSubmit={handlerLogin} className="container-auth_form center-content">
         <div className="wrapper-input">
-            <span className="text text_meddium">Login</span>
+            <span className="text text_meddium uppercase">Login</span>
             <input type='text' className="input text_big" {...register('login', { required: "Email is required." })} />
             {errors.login && <p className="text text-error text_small">{ errors.login.message }</p>}
         </div>
         <div className="wrapper-input">
-            <span className="text text_meddium">Password</span>
+            <span className="text text_meddium uppercase">Password</span>
             <input type="password" placeholder='password' className="input text_big"
                 {...register('password', {
                     required: "Password between 6-20 characters which contain at least one numeric digit, one uppercase and one lowercase letter",
@@ -45,7 +45,15 @@ const Login = () => {
             />
             {errors.password && <p className="text text-error text_small">{ errors.password.message }</p>}
         </div>
-        <button className="btn text_big">login</button>
+        <div className="btn-wrapper-auth">
+            <div className="auth-info">
+                <span className="text text_small">
+                    Not registered?
+                    <NavLink to='registration' className='navigation-link text text-error'>Registration</NavLink>
+                </span>
+            </div>
+            <button className="btn text_meddium capitalize">login</button>
+        </div>
     </form>
     {error.message && <p className="text text-error text_small">{ error.message }</p>}
     </>
