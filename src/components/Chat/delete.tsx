@@ -3,7 +3,7 @@ import { useFetch } from "../../hook/useFetch"
 import { useDispatch } from "react-redux"
 import { useEffect } from "react"
 
-export const DeleteChat = ({ id, chatIdHandler }: { id: number, chatIdHandler: (id: number | null) => void }) => {
+export const DeleteChat = ({ id }: { id: number }) => {
 
     const dispatch = useDispatch()
     const { fetchData, returnData } = useFetch<undefined, { message: string }>('chats/' + id, 'DELETE', true)
@@ -13,7 +13,6 @@ export const DeleteChat = ({ id, chatIdHandler }: { id: number, chatIdHandler: (
     useEffect(() => {
         if(returnData.message === 'Chat delete') {
             dispatch(deleteChatList(id))
-            chatIdHandler(null)
         }
     }, [returnData])
 

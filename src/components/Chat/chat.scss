@@ -1,17 +1,19 @@
 @import '../../style/color.scss';
 
 .container-chat {
-    right: 20px;
-    bottom: 20px;
-    position: fixed;
+    min-height: 280px;
     border-radius: 16px;
     flex-direction: column;
-    width: clamp(100px, calc(100% - 40px), 400px);
-    height: clamp(100px, calc(100% - 40px), 400px);
+    width: clamp(100px, calc(100% - 40px), 800px);
 }
 
 .chat-data:hover {
-    background-color: gray;
+    opacity: 0.8;
+    background-color: $blue;
+}
+
+.create {
+    color: white;
 }
 
 .container-chat-list {
@@ -25,7 +27,7 @@
     width: 100%;
     padding: 20px;
     display: flex;
-    background-color: gray;
+    background-color: $blue;
     border-radius: 0 0 16px 16px;
     justify-content: space-around;
 }
@@ -34,11 +36,12 @@
     width: 100%;
     display: flex;
     padding: 10px;
+    color: white;
     min-height: 60px;
     border-radius: 8px;
     margin-bottom: 5px;
     flex-direction: column;
-    background-color: $gray;
+    background-color: $blue;
 }
 
 .text-span {

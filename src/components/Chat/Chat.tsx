@@ -1,15 +1,14 @@
-import { useCallback, useEffect, useState, memo } from 'react';
 import { updateChatList } from '../../redux/chat/chat'
 import { useDispatch, useSelector } from 'react-redux'
 import { ChatsType, IStore } from '../../redux/type'
 import { useFetch } from '../../hook/useFetch'
 import { NavLink } from 'react-router-dom'
+import { useEffect, memo } from 'react'
 
 import './chat.scss'
 
 import { Skeleton } from '../Skeleton/Skeleton'
 import { DeleteChat } from './delete'
-import { ChatId } from './type'
 
 const DeleteChatMemo = memo(DeleteChat)
 
@@ -20,9 +19,6 @@ const Chat = () => {
   const chatList = useSelector<IStore, ChatsType[]>((store) => store.Chat)
   const { fetchData, returnData, loading } = useFetch<undefined, ChatsType[]>('chats', 'GET', true)
 
-  const [id, setChatId] = useState<ChatId>({ chatId: null })
-
-  const chatIdHandler = useCallback((id: number | null) => setChatId({ chatId: id }), [])
   useEffect(() => {
       fetchData()
   }, [])
@@ -41,7 +37,7 @@ const Chat = () => {
     <article className='container-chat-list'>
       {Array.isArray(chatList) && chatList?.length > 0 ?
         chatList?.map((chat) =>
-          <div key={chat.id} className='chat-data text pointer' onClick={() => chatIdHandler(chat.id)}>
+          <NavLink to={'chat/' + chat.id.toString()} key={chat.id} className='chat-data text pointer'>
             <span className='text-span'>Name:
               <p>{chat.name}</p>
             </span>
@@ -54,19 +50,16 @@ const Chat = () => {
             {chat.chat_creater.login === token &&
             <div className='text-span'>
               <p></p>
-              <DeleteChatMemo
-                id={chat.id}
-                chatIdHandler={chatIdHandler}
-              />
+              <DeleteChatMemo id={chat.id} />
             </div>}
-          </div>) :
+          </NavLink>) :
         <div className='center-content container-chat-list'>
           <p className='text text_big'>List empty</p>
         </div>}
     </article>
     <div className="create-chat">
-      <NavLink to="/create" className='title text'>Create</NavLink>
-      <span className='title text pointer' onClick={update}>Update</span>
+      <NavLink to="/create" className='title text create'>Create</NavLink>
+      <span className='title text pointer create' onClick={update}>Update</span>
     </div>
   </section>
 }
