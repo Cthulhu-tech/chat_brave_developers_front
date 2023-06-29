@@ -1,54 +1,100 @@
-import { updateMessages } from "../../redux/messages/messages"
-import { IStore, MessagesType } from "../../redux/type"
-import { useFetch } from "../../hook/useFetch"
-import { useParams } from "react-router-dom"
+import { ChangeEvent, useContext, useEffect, useState, memo, useCallback } from 'react'
+import { IStore, MessageType, TokenType } from "../../redux/type"
+import { redirect, useParams } from "react-router-dom"
+import { SocketContext } from "../../context/socket"
+import { ErrorElement } from "../Error/ErrorElement"
+import { Messages, MessagesError } from "./type"
+import { Skeleton } from '../Skeleton/Skeleton'
 import { useSelector } from "react-redux"
-import { useDispatch } from "react-redux"
-import { useEffect } from "react"
 
 import './message.scss'
+
+const ErrorElementMemo = memo(ErrorElement)
 
 const ChatMessage = () => {
 
     const { id } = useParams()
-    const dispatch = useDispatch()
-    const userId = useSelector<IStore, number | null>((store) => store.Token.id)
-    const messageList = useSelector<IStore, MessagesType>((store) => store.Messages)
-    const { fetchData, returnData } = useFetch<undefined, MessagesType>('chats/' + id, 'GET', true)
+    const socket = useContext(SocketContext)
+    const [message, setMessage] = useState('')
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState({ message: '', error: false})
+    const [allMessage, setAllMessage] = useState<MessageType[]>([])
+    const token = useSelector<IStore, TokenType>((store) => store.Token)
+    const login = useSelector<IStore, string>((store) => store.Token.user)
+    const changeMessage = (e: ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)
+
+    const createMessage = () => {
+        if(message) socket.emit('CREATE_MESSAGE', {
+            message,
+            user: token.id,
+            room: id,
+        })
+        setMessage(() => '')
+    }
+
+    const returnBack = useCallback(() => redirect('/'), [id])
 
     useEffect(() => {
-        if(id && !isNaN(+id)) fetchData()
-    }, [id])
 
-    useEffect(() => {
-        if(returnData) dispatch(updateMessages(returnData))
-    }, [returnData])
+        socket.emit('FIND_ALL_MESSAGE', { chatId: id })
+        socket.on('FIND_ALL_MESSAGE', (data: Messages | MessagesError) => {
+            setLoading(false)
+            if((data as Messages)?.messages) setAllMessage((data as Messages)?.messages)
+            if((data as MessagesError)?.error) setError({ message: (data as MessagesError)?.error, error: true})
+        })
+        socket.on('CREATE_MESSAGE', (data: MessageType) => setAllMessage((prevArray) => [...prevArray, data]))
 
-    return <div className="">{messageList?.messages?.map((msg) => {
-        return msg.message_creater.id !== userId ?
-        <div key={msg.id} className="">
-            <div className="">
-                <div className="">
-                    <p className="">{msg.message}</p>
-                </div>
-                <div className="">
-                    <span className="">{msg.message_creater.login}</span>
-                    <span className="">{new Date(msg.create_time).toLocaleTimeString()}</span>
-                </div>
+    }, [socket])
+
+    if(loading) return <section className="container-message glass-effect">
+        <Skeleton/>
+    </section>
+
+    if(error.error) return <ErrorElementMemo
+        callback={returnBack}
+        customError={error.message + ' Chat - ' + id}
+    />
+
+    return <section className="container-message glass-effect">
+        <div className="wrapper-message">
+            <div className="chat">{allMessage?.map((msg) => {
+                return msg.message_creater.login !== login ?
+                <div key={msg.id} className="message">
+                    <div className="">
+                        <p className="text text_meddium">{msg.message}</p>
+                        <div className="message-info">
+                            <span className="text text_small">{msg.message_creater.login}</span>
+                            <span className="text text_small">{new Date(msg.create_time).toLocaleTimeString()}</span>
+                        </div>
+                    </div>
+                </div> :
+                <div key={msg.id} className="message you">
+                    <div className="">
+                        <p className="text text_meddium">{msg.message}</p>
+                        <div className="message-info">
+                            <span className="text text_small">{msg.message_creater.login}</span>
+                            <span className="text text_small">{new Date(msg.create_time).toLocaleTimeString()}</span>
+                        </div>
+                    </div>
+                </div>}
+            )}</div>
+        </div>
+        <div className="container-message_set">
+            <div className="wrapper-message_button">
+                <input
+                    onChange={changeMessage}
+                    className="input text_big"
+                    type="text"
+                    placeholder="Type your message…"
+                    value={message}
+                />
+                <button
+                    onClick={createMessage}
+                    className="btn text_meddium capitalize send-message"
+                >send</button>
             </div>
-        </div> :
-        <div key={msg.id} className="">
-            <div className="">
-                <div className="g">
-                    <p className="">{msg.message}</p>
-                </div>
-                <div className="">
-                    <span className="">{msg.message_creater.login}</span>
-                    <span className="">{new Date(msg.create_time).toLocaleTimeString()}</span>
-                </div>
-            </div>
-        </div>}
-    )}</div>
+        </div>
+    </section>
 }
 
 export default ChatMessage
