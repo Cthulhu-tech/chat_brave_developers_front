@@ -42,7 +42,10 @@ const ChatMessage = () => {
             if((data as Messages)?.messages) setAllMessage((data as Messages)?.messages)
             if((data as MessagesError)?.error) setError({ message: (data as MessagesError)?.error, error: true})
         })
-        socket.on('CREATE_MESSAGE', (data: MessageType) => setAllMessage((prevArray) => [...prevArray, data]))
+        socket.on('CREATE_MESSAGE', (data: MessageType) => {
+            console.log(data)
+            setAllMessage([...allMessage, data])
+        })
 
     }, [socket])
 
