@@ -36,6 +36,10 @@ const ChatMessage = () => {
 
     useEffect(() => {
 
+        socket.emit('JOIN_ROOM', { 
+            room_id: id,
+            user_id: token.id
+        })
         socket.emit('FIND_ALL_MESSAGE', { chatId: id })
         socket.on('FIND_ALL_MESSAGE', (data: Messages | MessagesError) => {
             setLoading(false)
@@ -47,6 +51,12 @@ const ChatMessage = () => {
             console.log(data)
             setAllMessage([...allMessage, data])
         })
+
+        return () => {
+            socket.close()
+            socket.off('FIND_ALL_MESSAGE')
+            socket.off('CREATE_MESSAGE')
+        }
 
     }, [socket])
 
