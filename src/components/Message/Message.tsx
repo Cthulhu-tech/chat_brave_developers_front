@@ -43,13 +43,12 @@ const ChatMessage = () => {
         socket.emit('FIND_ALL_MESSAGE', { chatId: id })
         socket.on('FIND_ALL_MESSAGE', (data: Messages | MessagesError) => {
             setLoading(false)
-            console.log(data)
             if((data as Messages)?.messages) setAllMessage((data as Messages)?.messages)
             if((data as MessagesError)?.error) setError({ message: (data as MessagesError)?.error, error: true})
         })
         socket.on('CREATE_MESSAGE', (data: MessageType) => {
             console.log(data)
-            setAllMessage([...allMessage, data])
+            setAllMessage((prevState) => [...prevState, data])
         })
         socket.on('RECEIVE_CLIENT_JOINED', ({ user_server_id }) => {
             console.log(user_server_id)
