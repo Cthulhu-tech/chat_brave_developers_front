@@ -51,11 +51,19 @@ const ChatMessage = () => {
             console.log(data)
             setAllMessage([...allMessage, data])
         })
+        socket.on('RECEIVE_CLIENT_JOINED', ({ user_server_id }) => {
+            console.log(user_server_id)
+        })
+        socket.on('RECEIVE_DISONECT', ({ user }) => {
+            console.log(user)
+        })
 
         return () => {
             socket.close()
-            socket.off('FIND_ALL_MESSAGE')
             socket.off('CREATE_MESSAGE')
+            socket.off('FIND_ALL_MESSAGE')
+            socket.off('RECEIVE_DISONECT')
+            socket.off('RECEIVE_CLIENT_JOINED')
         }
 
     }, [socket])
