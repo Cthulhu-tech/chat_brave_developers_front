@@ -39,6 +39,7 @@ const ChatMessage = () => {
         socket.emit('FIND_ALL_MESSAGE', { chatId: id })
         socket.on('FIND_ALL_MESSAGE', (data: Messages | MessagesError) => {
             setLoading(false)
+            console.log(data)
             if((data as Messages)?.messages) setAllMessage((data as Messages)?.messages)
             if((data as MessagesError)?.error) setError({ message: (data as MessagesError)?.error, error: true})
         })
